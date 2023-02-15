@@ -114,11 +114,23 @@
   list-style: none;
   margin-top: 3.5rem;
 
+  @media screen and (max-width: $bp_medium) {
+    display: flex;
+    margin-top: 0;
+  }
   &__item {
     position: relative;
 
     &:not(:last-child) {
       margin-bottom: 0.5rem;
+    }
+
+    @media screen and (max-width: $bp_medium) {
+      flex: 1;
+
+      &:not(:last-child) {
+        margin-bottom: 0;
+      }
     }
   }
 
@@ -155,6 +167,16 @@
 
     display: flex;
     align-items: center;
+
+    @media screen and (max-width: $bp_medium) {
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    @media screen and (max-width: $bp_small) {
+      
+      padding: 2rem .5rem;
+    }
   }
   &__link:active {
     background-color: var(--color-primary-light);
@@ -174,6 +196,10 @@
   color: var(--color-grey-light-4);
   text-align: center;
   padding: 2.5rem;
+
+  @media screen and (max-width: $bp_medium) {
+    display: none;
+  }
 }
 
 // hotel view
@@ -215,6 +241,10 @@
     align-items: center;
 
     margin-right: 2rem;
+    
+    @media screen and (max-width: $bp_small) {
+      margin-left: 1.5rem;
+    }
   }
   &__icon--location {
     margin-right: 0.5rem;
@@ -262,7 +292,7 @@
 
   &:hover {
     color: var(--color-grey-dark-1);
-    
+
     span {
       margin-left: 8px;
     }
@@ -322,17 +352,20 @@
     margin-right: 0.7rem;
 
     // older browser
-    // background-image: url(../img/chevron-thin-right.svg);
-    // background-size: cover;
+    background-image: url(../img/chevron-thin-right.svg);
+    background-size: cover;
 
     // new browser
     // mask-image: url(../img/chevron-thin-right.svg);
     // mask-size: cover;
-    background-color: var(--color-primary);
-    --webkit-mask-image: url(../img/chevron-thin-right.svg);
-    --webkit-mask-size: cover;
-    mask-image: url(../img/chevron-thin-right.svg);
-    mask-size: cover;
+    @supports (-webkit-mask-image: url()) or (mask-image: url()) {
+          background-color: var(--color-primary);
+          --webkit-mask-image: url(../img/chevron-thin-right.svg);
+          --webkit-mask-size: cover;
+          mask-image: url(../img/chevron-thin-right.svg);
+          mask-size: cover;
+          background-image: none;
+    }
   }
 }
 
@@ -344,11 +377,17 @@
   display: flex;
   align-items: center;
 
+  @media screen and (max-width: $bp_small) {
+    flex-direction: column;
+    text-align: center;
+  }
+
   &__count {
     margin-right: auto;
+    
   }
   &__friends {
-
+    display: flex;
   }
   &__photo {
     box-sizing: content-box;
@@ -374,7 +413,11 @@
   box-shadow: var(--shadow-light);
   position: relative;
   overflow: hidden;
-  
+    
+  @media screen and (max-width: $bp_medium) {
+    
+  padding: 1.8rem;
+  }
 
   &::before {
     content: "\201C";
@@ -395,17 +438,15 @@
   }
   &__user {
     display: flex;
-
   }
-  &__photo{
+  &__photo {
     width: 4.5rem;
     height: 4.5rem;
     object-fit: cover;
     border-radius: 50%;
     margin-right: 1rem;
-
   }
-  &__user-box  {
+  &__user-box {
     margin-right: auto;
   }
   &__user-name {
@@ -413,11 +454,10 @@
     font-size: 1.1rem;
     font-weight: 600;
     text-transform: uppercase;
-    margin-bottom: .4rem;
-  
+    margin-bottom: 0.4rem;
   }
   &__user-date {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 300;
     color: var(--color-grey-dark-2);
   }
@@ -426,5 +466,83 @@
     font-size: 2.2rem;
     font-weight: 600;
     color: var(--color-primary-light);
+  }
+}
+
+//////////////////////////////////
+/// CTA
+
+.cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 4rem 0;
+  background-color: #fff;
+
+  &__book-now {
+    font-size: 2rem;
+    color: var(--color-grey-dark-2);
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    text-align: center;
+    
+    @media screen and (max-width: $bp_small) {
+      padding: 0 2rem;
+    }
+  }
+}
+
+.btn {
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.6rem;
+  background-image: linear-gradient(
+    to right,
+    var(--color-primary-light),
+    var(--color-primary-dark)
+  );
+  position: relative;
+  border-radius: 100px;
+  overflow: hidden;
+  cursor: pointer;
+
+  & > * {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    transition: all 0.2s;
+  }
+
+  &__visible {
+    padding: 2rem 7.5rem;
+  }
+  &__invisible {
+    padding: 2rem 0;
+    position: absolute;
+    top: -100%;
+    right: 0;
+  }
+
+  &:hover {
+    background-image: linear-gradient(
+      to left,
+      var(--color-primary-light),
+      var(--color-primary-dark)
+    );
+
+    & .btn__visible {
+      transform: translateY(100%);
+    }
+    & .btn__invisible {
+      top: 0;
+    }
+  }
+
+  &:focus {
+    outline: none;
+    animation: pulsate 1s infinite ease;
   }
 }
